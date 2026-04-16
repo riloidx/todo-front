@@ -1,16 +1,36 @@
-import axios from "axios";
-import { env } from "../config/env";
-import { AuthResponse } from "../types/types";
+import z from "zod";
+import { api } from "../api/instance";
+import { CreateTaskIntut, TaskResponse } from "../types/types";
+import { createTaskSchema } from "../utils/validation/schema";
 
-export async function fetchToken() {
-  const params = new URLSearchParams({
-    grant_type: "password",
-    client_id: "todo-client",
-    username: "test",
-    password: "password",
-  });
+const BASE_URL = "/tasks";
 
-  const { data } = await axios.post<AuthResponse>(env.keycloakUrl, params);
+interface ActionState {
+  errors?: Record<string, string[]>;
+  success?: boolean;
+  message?: string;
+}
 
-  return data.access_token;
+export async function fetchActiveTasks(): Promise<TaskResponse[]> {
+  const { data } = await api.get(`${BASE_URL}/active`);
+
+  return data;
+}
+
+export async function fetchCompletedTasks(): Promise<TaskResponse[]> {
+  const { data } = await api.get(`${BASE_URL}/completed`);
+
+  return data;
+}
+
+export async function fetchTaskById(id: number): Promise<TaskResponse> {
+  const { data } = await api.get(`${BASE_URL}/${id}`);
+
+  return data;
+}
+
+export async function createTask(data: CreateTaskIntut): Promise<ActionState> {
+  const { data: response } = await api.post(BASE_URL, data);
+  
+  return response;
 }

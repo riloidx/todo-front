@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { InternalAxiosRequestConfig } from "axios";
 import { AuthResponse } from "../types/types";
 
 export const api = axios.create({
@@ -13,7 +13,7 @@ api.interceptors.request.use((config) => {
   const token = localStorage.getItem("access_token");
 
   if (token && config.headers) {
-    config.headers.Authorization = `Bearer: ${token}`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
   return config;
@@ -22,10 +22,10 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const originalRequest = error.config;
+    const originalRequest = error.config as InternalAxiosRequestConfig;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
+    if (error.response?.status === 401 && !originalRequest.headers["X-Retry"]) {
+      originalRequest.headers["X-Retry"] = "true";
 
       try {
         const refreshToken = localStorage.getItem("refresh_token");
