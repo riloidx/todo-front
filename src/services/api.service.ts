@@ -1,7 +1,5 @@
-import z from "zod";
 import { api } from "../api/instance";
 import { CreateTaskIntut, TaskResponse } from "../types/types";
-import { createTaskSchema } from "../utils/validation/schema";
 
 const BASE_URL = "/tasks";
 
@@ -10,6 +8,7 @@ interface ActionState {
   success?: boolean;
   message?: string;
 }
+
 
 export async function fetchActiveTasks(): Promise<TaskResponse[]> {
   const { data } = await api.get(`${BASE_URL}/active`);
@@ -29,8 +28,8 @@ export async function fetchTaskById(id: number): Promise<TaskResponse> {
   return data;
 }
 
-export async function createTask(data: CreateTaskIntut): Promise<ActionState> {
-  const { data: response } = await api.post(BASE_URL, data);
-  
-  return response;
+export async function createTask(createTaskInput: CreateTaskIntut): Promise<ActionState> {
+  const { data } = await api.post(BASE_URL, createTaskInput);
+
+  return data;
 }
