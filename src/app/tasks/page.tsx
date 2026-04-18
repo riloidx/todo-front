@@ -1,35 +1,35 @@
-"use client"; // 1. Обязательно
+"use client";
 
-import TaskRow from "@/src/components/task-row";
-import { fetchActiveTasks } from "@/src/services/api.service";
-import { TaskResponse } from "@/src/types/types";
-import { useQuery } from "@tanstack/react-query";
+import { Button } from "@/src/components/button";
+import CreateTaskForm from "@/src/components/create-task-form";
+import Input from "@/src/components/input";
+import Modal from "@/src/components/modal";
+import TaskList from "@/src/components/task-list";
+import TaskSkeleton from "@/src/components/task-skeleton";
+import { Suspense, useState } from "react";
 
 export default function TaskHome() {
-  const { data, isLoading, error } = useQuery<TaskResponse[]>({
-    queryKey: ["tasks", "active"],
-    queryFn: fetchActiveTasks,
-  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading tasks</div>;
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 py-8 px-4">
       <div className="max-w-2xl mx-auto">
         <header className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-slate-900">My Tasks</h1>
+          <Button onClick={() => setIsModalOpen(true)}>Create Task</Button>
         </header>
 
-        <div className="flex flex-col gap-3">
-          {data?.map((t) => (
-            <TaskRow key={t.id} task={t} />
-          ))}
+        <Suspense fallback={<TaskSkeleton />}>
+          <TaskList />
+        </Suspense>
 
-          {data?.length === 0 && (
-            <p className="text-center text-slate-400">No active tasks</p>
-          )}
-        </div>
+        <Modal isOpen={isModalOpen} onClose={closeModal} title="Create Task">
+          <CreateTaskForm onSuccess={closeModal} />
+        </Modal>
       </div>
     </div>
   );

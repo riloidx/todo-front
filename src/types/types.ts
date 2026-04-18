@@ -8,7 +8,7 @@ export interface AuthResponse {
 export interface TaskResponse {
   id: number;
   title: string;
-  description: string;
+  description: string | null;
   completed: boolean;
   position: number;
   createdAt: string;
@@ -17,5 +17,12 @@ export interface TaskResponse {
 
 export interface CreateTaskIntut {
   title: string;
-  description: string;
+  description?: string | null;
+}
+
+export interface UpdateTask {
+  title?: string;
+  description?: string;
+  completed?: boolean;
+  position?: number;
 }

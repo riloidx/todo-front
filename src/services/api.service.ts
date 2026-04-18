@@ -1,5 +1,5 @@
 import { api } from "../api/instance";
-import { CreateTaskIntut, TaskResponse } from "../types/types";
+import { CreateTaskIntut, TaskResponse, UpdateTask } from "../types/types";
 
 const BASE_URL = "/tasks";
 
@@ -32,4 +32,14 @@ export async function createTask(createTaskInput: CreateTaskIntut): Promise<Acti
   const { data } = await api.post(BASE_URL, createTaskInput);
 
   return data;
+}
+
+export async function updateTask(id: number, input: UpdateTask): Promise<TaskResponse> {
+  const { data } = await api.put(`${BASE_URL}/${id}`, input);
+
+  return data;
+}
+
+export async function deleteTask(id: number): Promise<void> {
+  await api.delete(`${BASE_URL}/${id}`);
 }
