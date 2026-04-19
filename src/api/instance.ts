@@ -1,19 +1,23 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
 import { AuthResponse } from "../types/types";
+import Cookies from "js-cookie";
+import { env } from "../config/env";
 
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  baseURL: env.backendUrl,
 });
 
 export const auth = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_KEYCLOAK_URL,
+  baseURL: env.keycloakUrl,
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("access_token");
+  if (typeof window !== "undefined") {
+    const token = Cookies.get("access_token");
 
-  if (token && config.headers) {
-    config.headers.Authorization = `Bearer ${token}`;
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
   }
 
   return config;
@@ -28,25 +32,27 @@ api.interceptors.response.use(
       originalRequest.headers["X-Retry"] = "true";
 
       try {
-        const refreshToken = localStorage.getItem("refresh_token");
+        const refreshToken = Cookies.get("refresh_token");
 
         const params = new URLSearchParams({
           grant_type: "refresh_token",
-          client_id: `${process.env.KEYCLOAK_CLIENT}`,
+          client_id: `${env.keycloakClient}`,
           refresh_token: refreshToken || "",
         });
 
         const { data } = await auth.post<AuthResponse>("/token", params);
 
-        localStorage.setItem("access_token", data.access_token);
-        localStorage.setItem("refresh_token", data.refresh_token);
+        Cookies.set("access_token", data.access_token);
+        Cookies.set("refresh_token", data.refresh_token);
 
         originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
 
         return api(originalRequest);
       } catch (refreshError) {
-        localStorage.clear();
-        window.location.href = "/login";
+        Cookies.remove("access_token");
+        Cookies.remove("refresh_token");
+
+        //if (typeof window !== "undefined") window.location.href = "/";
 
         return Promise.reject(refreshError);
       }

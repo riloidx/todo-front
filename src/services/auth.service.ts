@@ -1,5 +1,6 @@
 import { auth } from "../api/instance";
 import { env } from "../config/env";
+import Cookies from "js-cookie";
 
 export function getKeycloakAuthUrl() {
   const params = new URLSearchParams({
@@ -22,8 +23,8 @@ export async function exchangeCodeForToken(code: string) {
 
   const { data } = await auth.post("/token", params);
 
-  localStorage.setItem("access_token", data.access_token);
-  localStorage.setItem("refresh_token", data.refresh_token);
+  Cookies.set("access_token", data.access_token);
+  Cookies.set("refresh_token", data.refresh_token);
 
   return data;
 }
