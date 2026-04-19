@@ -5,9 +5,9 @@ import { createTask } from "@/src/services/api.service";
 import { CreateTaskIntut } from "@/src/types/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createTaskSchema } from "../utils/validation/schema";
-import Input from "./input";
-import { Button } from "./button";
+import { CreateTaskSchema, CreateTaskType } from "../../utils/validation/schema";
+import Input from "../input";
+import { Button } from "../button";
 
 export default function CreateTaskForm({
   onSuccess,
@@ -21,8 +21,8 @@ export default function CreateTaskForm({
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<CreateTaskIntut>({
-    resolver: zodResolver(createTaskSchema),
+  } = useForm<CreateTaskType>({
+    resolver: zodResolver(CreateTaskSchema),
   });
 
   const mutation = useMutation({
@@ -34,7 +34,7 @@ export default function CreateTaskForm({
     },
   });
 
-  const onSubmit = (data: CreateTaskIntut) => {
+  const onSubmit = (data: CreateTaskType) => {
     mutation.mutate(data);
   };
 

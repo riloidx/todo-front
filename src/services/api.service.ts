@@ -1,5 +1,6 @@
 import { api } from "../api/instance";
 import { CreateTaskIntut, TaskResponse, UpdateTask } from "../types/types";
+import { CreateTaskType as CreateTaskType, UpdateTaskType } from "../utils/validation/schema";
 
 const BASE_URL = "/tasks";
 
@@ -28,13 +29,13 @@ export async function fetchTaskById(id: number): Promise<TaskResponse> {
   return data;
 }
 
-export async function createTask(createTaskInput: CreateTaskIntut): Promise<ActionState> {
-  const { data } = await api.post(BASE_URL, createTaskInput);
+export async function createTask(createTaskType: CreateTaskType): Promise<ActionState> {
+  const { data } = await api.post(BASE_URL, createTaskType);
 
   return data;
 }
 
-export async function updateTask(id: number, input: UpdateTask): Promise<TaskResponse> {
+export async function updateTask(id: number, input: UpdateTaskType): Promise<TaskResponse> {
   const { data } = await api.put(`${BASE_URL}/${id}`, input);
 
   return data;
