@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/src/components/button";
-import CreateTaskForm from "@/src/components/task/create-task-form";
 import Modal from "@/src/components/modal";
+import CreateTaskForm from "@/src/components/task/create-task-form";
 import TaskList from "@/src/components/task/task-list";
 import TaskSkeleton from "@/src/components/task/task-skeleton";
 import { Suspense, useState } from "react";
@@ -30,7 +30,11 @@ export default function TaskHome() {
           </Suspense>
         </div>
 
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Create Task">
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Create Task"
+        >
           <CreateTaskForm onSuccess={() => setIsModalOpen(false)} />
         </Modal>
       </div>

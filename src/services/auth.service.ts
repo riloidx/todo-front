@@ -1,6 +1,6 @@
+import Cookies from "js-cookie";
 import { auth } from "../api/instance";
 import { env } from "../config/env";
-import Cookies from "js-cookie";
 
 export function getKeycloakAuthUrl() {
   const params = new URLSearchParams({

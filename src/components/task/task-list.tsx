@@ -1,9 +1,9 @@
 "use client";
 
+import { TaskResponse } from "@/src/types/types";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { fetchActiveTasks, fetchCompletedTasks } from "../../services/api.service";
 import TaskRow from "./task-row";
-import { TaskResponse } from "@/src/types/types";
 
 interface TaskListProps {
   type: "active" | "completed";

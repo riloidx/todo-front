@@ -12,7 +12,10 @@ export default function Input({
   return (
     <div className="flex flex-col gap-2">
       {label && (
-        <label htmlFor={rest.id || rest.name} className="text-sm font-semibold text-slate-700">
+        <label
+          htmlFor={rest.id || rest.name}
+          className="text-sm font-semibold text-slate-700"
+        >
           {label}
         </label>
       )}

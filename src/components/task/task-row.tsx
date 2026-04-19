@@ -1,13 +1,13 @@
-import { FaEdit } from "react-icons/fa";
-import { Button } from "../button";
-import { FaRegTrashCan } from "react-icons/fa6";
-import Modal from "../modal";
-import UpdateTaskForm from "./update-task-form";
+import { deleteTask, updateTask } from "@/src/services/api.service";
 import { TaskResponse, UpdateTask } from "@/src/types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteTask, updateTask } from "@/src/services/api.service";
-import { useState } from "react";
 import { format } from "date-fns";
+import { useState } from "react";
+import { FaEdit } from "react-icons/fa";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { Button } from "../button";
+import Modal from "../modal";
+import UpdateTaskForm from "./update-task-form";
 
 export default function TaskRow({ task }: { task: TaskResponse }) {
   const [isEditOpen, setIsEditOpen] = useState(false);

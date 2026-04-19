@@ -1,7 +1,7 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
-import { AuthResponse } from "../types/types";
 import Cookies from "js-cookie";
 import { env } from "../config/env";
+import { AuthResponse } from "../types/types";
 
 export const api = axios.create({
   baseURL: env.backendUrl,

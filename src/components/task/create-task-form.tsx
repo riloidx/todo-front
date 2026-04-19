@@ -1,13 +1,15 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createTask } from "@/src/services/api.service";
-import { CreateTaskIntut } from "@/src/types/types";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateTaskSchema, CreateTaskType } from "../../utils/validation/schema";
-import Input from "../input";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import {
+  CreateTaskSchema,
+  CreateTaskType,
+} from "../../utils/validation/schema";
 import { Button } from "../button";
+import Input from "../input";
 
 export default function CreateTaskForm({
   onSuccess,
@@ -39,10 +41,7 @@ export default function CreateTaskForm({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-3"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3">
       <div className="space-y-4">
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-slate-700 ml-1">
@@ -76,11 +75,7 @@ export default function CreateTaskForm({
         >
           Cancel
         </Button>
-        <Button
-          type="submit"
-          disabled={mutation.isPending}
-          className="px-8"
-        >
+        <Button type="submit" disabled={mutation.isPending} className="px-8">
           {mutation.isPending ? (
             <span className="flex items-center gap-2">
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
