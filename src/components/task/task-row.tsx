@@ -5,11 +5,18 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { RxDragHandleHorizontal } from "react-icons/rx";
 import { Button } from "../button";
 import Modal from "../modal";
 import UpdateTaskForm from "./update-task-form";
 
-export default function TaskRow({ task }: { task: TaskResponse }) {
+export default function TaskRow({
+  task,
+  handleRef,
+}: {
+  task: TaskResponse;
+  handleRef?: React.Ref<HTMLParagraphElement> | null;
+}) {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const queryClient = useQueryClient();
 
@@ -30,6 +37,12 @@ export default function TaskRow({ task }: { task: TaskResponse }) {
   return (
     <div className="flex items-center justify-between p-4 bg-white border border-slate-200 rounded-xl hover:shadow-md transition-shadow group">
       <div className="flex items-center gap-4">
+        {!task.completed && (
+          <p ref={handleRef}>
+            <RxDragHandleHorizontal size={24} />
+          </p>
+        )}
+
         <input
           type="checkbox"
           checked={task.completed}
@@ -72,7 +85,7 @@ export default function TaskRow({ task }: { task: TaskResponse }) {
 
         <Button
           onClick={() => {
-            if (confirm("Удалить?")) deleteMutation.mutate();
+            deleteMutation.mutate();
           }}
           disabled={deleteMutation.isPending}
           className="opacity-0 group-hover:opacity-100 p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all disabled:opacity-50"
