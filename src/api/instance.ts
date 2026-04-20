@@ -28,9 +28,7 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config as InternalAxiosRequestConfig;
 
-    if (error.response?.status === 401 && !originalRequest.headers["X-Retry"]) {
-      originalRequest.headers["X-Retry"] = "true";
-
+    if (error.response?.status === 401) {
       try {
         const refreshToken = Cookies.get("refresh_token");
 
@@ -52,7 +50,7 @@ api.interceptors.response.use(
         Cookies.remove("access_token");
         Cookies.remove("refresh_token");
 
-        //if (typeof window !== "undefined") window.location.href = "/";
+        if (typeof window !== "undefined") window.location.href = "/";
 
         return Promise.reject(refreshError);
       }
