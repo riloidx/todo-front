@@ -80,14 +80,15 @@ export default function UpdateTaskForm({
         <Button
           type="button"
           onClick={onSuccess}
-          className="bg-transparent hover:bg-slate-100 text-slate-600 border-none shadow-none"
+          className="bg-slate-100 text-slate-600 hover:bg-slate-200 border-none shadow-none"
         >
           Cancel
         </Button>
+
         <Button
           type="submit"
           disabled={mutation.isPending}
-          className="px-8 bg-indigo-600 hover:bg-indigo-700 text-white"
+          className="px-8 bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm"
         >
           {mutation.isPending ? (
             <span className="flex items-center gap-2">

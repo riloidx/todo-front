@@ -71,7 +71,7 @@ export default function TaskRow({
         {!task.completed && (
           <Button
             onClick={() => setIsEditOpen(true)}
-            className="opacity-0 group-hover:opacity-100 p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all"
+            className="opacity-0 group-hover:opacity-100 p-2 text-slate-400 transition-all"
           >
             <FaEdit size={18} />
           </Button>

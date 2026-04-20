@@ -71,7 +71,7 @@ export default function CreateTaskForm({
         <Button
           type="button"
           onClick={onSuccess}
-          className="bg-indigo-950 hover:bg-indigo-600 text-slate-600 border-none shadow-none"
+          className="bg-slate-100 text-slate-600 hover:bg-slate-200 border-none shadow-none"
         >
           Cancel
         </Button>
