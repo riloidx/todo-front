@@ -29,12 +29,19 @@ export const UpdateTaskSchema = z.object({
     .max(500, { message: "Description must not exceed 500 characters" })
     .optional()
     .nullable(),
-  completed: z.boolean().optional(),
+});
+
+export const UpdateTaskCompletedSchema = z.object({
+  completed: z.boolean(),
+});
+
+export const UpdateTaskPositionSchema = z.object({
   position: z.coerce
     .number()
-    .min(0, { message: "Position cannot be negative" })
-    .optional(),
+    .min(1, { message: "Position cannot be negative" }),
 });
 
 export type CreateTaskType = z.infer<typeof CreateTaskSchema>;
-export type UpdateTaskType = z.infer<typeof UpdateTaskSchema>;
+export type UpdateTaskContentType = z.infer<typeof UpdateTaskSchema>;
+export type UpdateTaskCompletedType = z.infer<typeof UpdateTaskCompletedSchema>;
+export type UpdateTaskPositionType = z.infer<typeof UpdateTaskPositionSchema>;

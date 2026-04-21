@@ -1,6 +1,8 @@
 "use client";
 
 import { TaskResponse } from "@/src/types/types";
+import { DragDropProvider, DragEndEvent } from "@dnd-kit/react";
+import { isSortable } from "@dnd-kit/react/sortable";
 import {
   useMutation,
   useQueryClient,
@@ -9,11 +11,9 @@ import {
 import {
   fetchActiveTasks,
   fetchCompletedTasks,
-  updateTask,
+  updatePositionTask,
 } from "../../services/api.service";
 import SortableTaskRow from "./sortableTableRow";
-import { DragDropProvider, DragEndEvent } from "@dnd-kit/react";
-import { isSortable } from "@dnd-kit/react/sortable";
 
 interface TaskListProps {
   type: "active" | "completed";
@@ -29,7 +29,7 @@ export default function TaskList({ type }: TaskListProps) {
 
   const updatePositionMutation = useMutation({
     mutationFn: ({ id, position }: { id: number | string; position: number }) =>
-      updateTask(Number(id), { position }),
+      updatePositionTask(Number(id), { position }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks", type] });
     },

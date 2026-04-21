@@ -1,6 +1,6 @@
 import { api } from "../api/instance";
 import { TaskResponse } from "../types/types";
-import { CreateTaskType, UpdateTaskType } from "../utils/validation/schema";
+import { CreateTaskType, UpdateTaskCompletedType, UpdateTaskContentType, UpdateTaskPositionType } from "../utils/validation/schema";
 
 const BASE_URL = "/tasks";
 
@@ -36,11 +36,29 @@ export async function createTask(
   return data;
 }
 
-export async function updateTask(
+export async function updateContentTask(
   id: number,
-  input: UpdateTaskType,
+  input: UpdateTaskContentType,
 ): Promise<TaskResponse> {
-  const { data } = await api.put(`${BASE_URL}/${id}`, input);
+  const { data } = await api.patch(`${BASE_URL}/${id}`, input);
+
+  return data;
+}
+
+export async function updateCompletedTask(
+  id: number,
+  input: UpdateTaskCompletedType,
+): Promise<TaskResponse> {
+  const { data } = await api.patch(`${BASE_URL}/${id}/completed`, input);
+
+  return data;
+}
+
+export async function updatePositionTask(
+  id: number,
+  input: UpdateTaskPositionType,
+): Promise<TaskResponse> {
+  const { data } = await api.patch(`${BASE_URL}/${id}/position`, input);
 
   return data;
 }

@@ -1,5 +1,6 @@
-import { deleteTask, updateTask } from "@/src/services/api.service";
-import { TaskResponse, UpdateTask } from "@/src/types/types";
+import { deleteTask, updateCompletedTask } from "@/src/services/api.service";
+import { TaskResponse } from "@/src/types/types";
+import { UpdateTaskCompletedType } from "@/src/utils/validation/schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -21,7 +22,8 @@ export default function TaskRow({
   const queryClient = useQueryClient();
 
   const updateMutation = useMutation({
-    mutationFn: (payload: UpdateTask) => updateTask(task.id, payload),
+    mutationFn: (payload: UpdateTaskCompletedType) =>
+      updateCompletedTask(task.id, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
     },

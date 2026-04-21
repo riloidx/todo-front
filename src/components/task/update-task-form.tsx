@@ -1,10 +1,10 @@
 "use client";
 
-import { updateTask } from "@/src/services/api.service";
+import { updateContentTask } from "@/src/services/api.service";
 import { TaskResponse } from "@/src/types/types";
 import {
   UpdateTaskSchema,
-  UpdateTaskType,
+  UpdateTaskContentType,
 } from "@/src/utils/validation/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -27,7 +27,7 @@ export default function UpdateTaskForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UpdateTaskType>({
+  } = useForm<UpdateTaskContentType>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(UpdateTaskSchema) as any,
     defaultValues: {
@@ -37,14 +37,14 @@ export default function UpdateTaskForm({
   });
 
   const mutation = useMutation({
-    mutationFn: (data: UpdateTaskType) => updateTask(task.id, data),
+    mutationFn: (data: UpdateTaskContentType) => updateContentTask(task.id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
       onSuccess();
     },
   });
 
-  const onSubmit = (data: UpdateTaskType) => {
+  const onSubmit = (data: UpdateTaskContentType) => {
     mutation.mutate(data);
   };
 
