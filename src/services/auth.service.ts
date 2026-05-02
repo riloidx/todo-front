@@ -28,3 +28,17 @@ export async function exchangeCodeForToken(code: string) {
 
   return data;
 }
+
+export function logout() {
+  const params = new URLSearchParams({
+    client_id: env.keycloakClient,
+    post_logout_redirect_uri: env.frontendUrl, 
+  });
+
+  const logoutUrl = `${env.keycloakUrl}/logout?${params.toString()}`;
+  
+  Cookies.remove("access_token");
+  Cookies.remove("refresh_token");
+
+  window.location.href = logoutUrl;
+}
